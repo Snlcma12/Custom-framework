@@ -8,6 +8,7 @@ Template.prototype.graphics3DTemplate = () => `
             <option value="torus">Торус</option>
             <option value="MobiusStrip">Бутылка Клейна</option>
             <option value="fff">Фугура</option>
+            <option value="cone">Конус</option>
         </select>
     </div>
     <div class="gp3d">
