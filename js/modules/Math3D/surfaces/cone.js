@@ -23,14 +23,14 @@ Surfaces.prototype.cone = (slices = 50, height = 3, radius = 2, color = '#ffff00
       edges.push(new Edge(i, (i % slices) + 1));
       edges.push(new Edge((i % slices) + 1, points.length - 1));
       polygons.push(
-        new Polygon([i, (i % slices) + 1, points.length - 1, points.length - 1])
+        new Polygon([i, (i % slices) + 1, points.length - 1, points.length - 1], color)
       );
     }
   
     for (let i = 1; i <= slices; i++) {
       edges.push(new Edge(0, i));
       edges.push(new Edge(i, (i % slices) + 1));
-      polygons.push(new Polygon([0, i, (i % slices) + 1]));
+      polygons.push(new Polygon([0, i, (i % slices) + 1], color));
     }
   
     return new Surface(points, edges, polygons);

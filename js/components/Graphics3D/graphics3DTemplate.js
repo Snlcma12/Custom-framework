@@ -9,6 +9,8 @@ Template.prototype.graphics3DTemplate = () => `
             <option value="MobiusStrip">Бутылка Клейна</option>
             <option value="fff">Фугура</option>
             <option value="cone">Конус</option>
+            <option value="EllipticalParaboloid">Эллиптический параболоид</option>
+            <option value="Elipsoid">Элипсоид</option>
         </select>
     </div>
     <div class="gp3d">

@@ -1,38 +1,45 @@
-Surfaces.prototype.fff = (count = 10, color = '#aaffee') => {
+Surfaces.prototype.fff = (radiusX = 20, radiusY= 20, height= 100, slices=20, stacks= 30) => {
     const points = [];
     const edges = [];
     const polygons = [];
 
-    for (let x = -count; x < count; x++) {
-        for (let y = -count; y < count; y++) {
-            const z = x ** 2 / 10 + y ** 2 / 20;
-            points.push(new Point(x, y, z));
+    // Generate vertices
+    for (let i = 0; i <= stacks; i++) {
+        const stackHeight = height / stacks * i;
+        for (let j = 0; j <= slices; j++) {
+            const sliceAngle = (2 * Math.PI / slices) * j;
+            const x = radiusX * Math.cos(sliceAngle);
+            const y = radiusY * Math.sin(sliceAngle);
+            points.push(new Point(x, y, stackHeight));
         }
     }
 
-    console.log(points);
+    // Generate edges
+    for (let i = 0; i < stacks; i++) {
+        for (let j = 0; j < slices; j++) {
+            const currentPoint = i * (slices + 1) + j;
+            const nextPoint = currentPoint + (slices + 1);
 
-    /*
-    for (var lat = 0; lat < count; lat++) {
-        for (var lon = 0; lon < count; lon++) {
-            var first = lat * (count + 1) + lon;
-            var second = first + count + 1;
-            edges.push(new Edge(first, second));
-            edges.push(new Edge(first + 1, second));
-            edges.push(new Edge(second + 1, first + 1));
+            edges.push(new Edge(currentPoint, nextPoint));
+            edges.push(new Edge(currentPoint + 1, nextPoint + 1));
+            edges.push(new Edge(currentPoint, nextPoint + 1));
+            edges.push(new Edge(currentPoint + 1, nextPoint));
         }
     }
 
-    for (let i = 0; i < points.length; i++) {
-        if (points[i + 1 + count]) {
+    // Generate polygons
+    for (let i = 0; i < stacks; i++) {
+        for (let j = 0; j < slices; j++) {
+            const base = i * (slices + 1) + j;
+            const top = base + (slices + 1);
+
             polygons.push(new Polygon([
-                i,
-                i + 1,
-                i + 1 + count,
-                i + count
-            ], '#00ffee'));
+                base, base + 1, top + 1, top
+            ]));
         }
     }
-    */
+
+
+
     return new Surface(points, edges, polygons);
 };
