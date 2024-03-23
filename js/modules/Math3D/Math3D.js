@@ -18,13 +18,13 @@ class Math3D {
   }
 
   Pointer(point, T) {
-    const array = this.multMatrix(T, [point.x, point.y, point.z, 1]);
+    const array = this.multPoint(T, [point.x, point.y, point.z, 1]);
     point.x = array[0];
     point.y = array[1];
     point.z = array[2];
   }
 
-  multMatrix(T, m) {
+  multPoint(T, m) {
     const a = [0, 0, 0, 0];
     for (let i = 0; i < 4; i++) {
       let b = 0;
@@ -37,54 +37,92 @@ class Math3D {
   }
 
   zoom(delta) {
-    const T = [
+    return [
       [delta, 0, 0, 0],
       [0, delta, 0, 0],
       [0, 0, delta, 0],
       [0, 0, 0, 1]
     ];
-    return T;
   }
 
   move(dx, dy, dz) {
-    const T = [
+    return [
       [1, 0, 0, 0],
       [0, 1, 0, 0],
       [0, 0, 1, 0],
       [dx, dy, dz, 1]
     ];
-    return T;
   }
 
   rotateOx(alpha) {
-    const T = [
+    return [
       [1, 0, 0, 0],
       [0, Math.cos(alpha), Math.sin(alpha), 0],
       [0, -Math.sin(alpha), Math.cos(alpha), 0],
       [0, 0, 0, 1]
     ];
-    return T;
   }
 
   rotateOy(alpha) {
-    const T = [
+    return [
       [Math.cos(alpha), 0, -Math.sin(alpha), 0],
       [0, 1, 0, 0],
       [Math.sin(alpha), 0, Math.cos(alpha), 0],
       [0, 0, 0, 1]
     ];
-    return T;
   }
 
   rotateOz(alpha) {
-    const T = [
+    return [
       [Math.cos(alpha), Math.sin(alpha), 0, 0],
       [-Math.sin(alpha), Math.cos(alpha), 0, 0],
       [0, 0, Math.cos(alpha), 0],
       [0, 0, 0, 1]
     ];
-    return T;
   }
+
+  transform(matrix, point){
+    const result = this.multPoint(matrix, [point.x, point.y, point.z, 1]);
+    point.x = result[0];
+    point.y = result[1];
+    point.z = result[2];
+   }	
+   
+   getTransform(args){
+    return args.reduce(
+      (s,t) => this.multMatrix(s,t),
+      [[1,0,0,0],
+      [0,1,0,0],
+      [0,0,1,0],
+      [0,0,0,1]]
+    );	
+  }
+
+  multMatrix(T1, T2) {
+    const result = [];
+    for (let i = 0; i < 4; i++) {
+      result[i] = [];
+      for (let j = 0; j < 4; j++) {
+        result[i][j] = 0;
+        for (let k = 0; k < 4; k++) {
+          result[i][j] += T1[i][k] * T2[k][j];
+        }
+      }
+    }
+    return result;
+  }
+
+  SolarSystem(){
+    const Earth = this.surfaces.sphere();
+    Earth.addAnimation('rotateOy',0.1);
+    const Moon = this.surfaces.cube();
+    Moon.addAnimation('rotateOx',0.2);
+    Moon.addAnimation('rotateOx',0.05);
+    return[Earth,Moon];
+  }
+  
+  
+
 
   calcDistance(surface, endPoint, name) {
     surface.polygons.forEach((polygon) => {

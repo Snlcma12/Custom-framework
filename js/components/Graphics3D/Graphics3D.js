@@ -2,6 +2,7 @@ class Graphics3D extends Component {
     constructor(props) {
         super(props);
 
+
         this.WIN = {
             LEFT: -10,
             BOTTOM: -10,
@@ -28,16 +29,25 @@ class Graphics3D extends Component {
         const surfaces = new Surfaces();
         this.scene = [surfaces.cube()];
         this.LIGHT = new Light(-40, 15, 0, 1250);
+        //this.scene = this.SolarSystem();
+        
+    
+        setInterval(() => {
+        this.scene.forEach(surface=>surface.doAnimation(this.math3D));
+        this.render3D();
+        },50);
 
         this.color = "#ff2a00";
         this.polygonsOnly = true;
         this.pointOnly = true;
         this.edgesOnly = true;
+        this.animationActive = true;
         this.canMove = false;
         this.dx = 0;
         this.dy = 0;
-
+        
         this.render3D();
+        this.animate();
     }
 
     addEventListeners() {
@@ -52,15 +62,21 @@ class Graphics3D extends Component {
                 this.render3D();
             })
         );
+        document.getElementById("animationControl").addEventListener("change", (event) => {
+            this.animationActive = event.target.checked;
+            if (this.animationActive) {
+              this.animate();
+            }
+          });
     }
+
+    
 
     wheel(event) {
         event.preventDefault();
         const delta = event.wheelDelta < 0 ? 0.9 : 1.1;
-        const T = this.math3D.zoom(delta);
-        this.scene.forEach(surface => surface.points.forEach((point) => {
-            this.math3D.Pointer(point, T);
-        }));
+        const matrix = this.math3D.zoom(delta);
+	    this.scene.forEach(surface => surface.points.forEach(point => this.math3D.transform(matrix, point)));
         this.render3D();
     }
 
@@ -92,6 +108,16 @@ class Graphics3D extends Component {
         this.dx = event.offsetX;
         this.dy = event.offsetY;
     }
+
+    animate() {
+        if (!this.animationActive) return;
+    
+        requestAnimationFrame(() => this.animate());
+    
+        this.scene.forEach(surface => surface.doAnimation(this.math3D));
+        this.render3D();
+      }
+    
 
     render3D() {
         this.graph.clear();

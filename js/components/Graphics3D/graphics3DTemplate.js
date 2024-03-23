@@ -29,6 +29,10 @@ Template.prototype.graphics3DTemplate = () => `
         <input class='surfaceCustom' data-custom='color' type="color" id="meshColor" value="#e66465" />
         <label for="meshColor">Color</label>
     </div>
+    <div class="gp3d">
+    <input id="animationControl" type="checkbox" checked />
+    <label for="animationControl">Анимация</label>
+    </div>
     <canvas id='graph3D'></canvas>
 </div>
 `;
