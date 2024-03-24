@@ -1,22 +1,20 @@
-Surfaces.prototype.EllipticalParaboloid = (rx = 10, ry = 5, k = 0.1) => {
+Surfaces.prototype.EllipticalParaboloid = (a = 1, b = 1, c = 1) => {
     const points = [];
     const edges = [];
     const polygons = [];
-    for (let i = 0; i <= ry; i++) {
-        for (let j = 0; j <= rx; j++) {
-            const x = j / rx * 2 * Math.PI - Math.PI;
-            const y = i / ry * Math.PI - Math.PI / 2;
-            const z = k * Math.sinh(x) * Math.cos(y);
-
+    const step = 0.1;
+    for (let u = -Math.PI; u < Math.PI; u += step) {
+        for (let v = -Math.PI; v < Math.PI; v += step) {
+            const x = a * Math.cosh(u) * Math.cos(v);
+            const y = b * Math.sinh(u) * Math.sin(v);
+            const z = c * Math.sinh(u);
             points.push(new Point(x, y, z));
         }
     }
-
-    // Generate edges
-    
    
 
-    // Generate polygons
+
+    
     
 
 

@@ -7,7 +7,7 @@ Template.prototype.graphics3DTemplate = () => `
             <option value="sphere">Сфера</option>
             <option value="torus">Торус</option>
             <option value="MobiusStrip">Бутылка Клейна</option>
-            <option value="fff">Фугура</option>
+            <option value="EllipticalCylinder">эллиптический цилиндр</option>
             <option value="cone">Конус</option>
             <option value="EllipticalParaboloid">Эллиптический параболоид</option>
             <option value="Elipsoid">Элипсоид</option>

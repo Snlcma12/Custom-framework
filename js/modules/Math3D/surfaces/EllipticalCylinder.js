@@ -1,4 +1,4 @@
-Surfaces.prototype.fff = (radiusX = 20, radiusY= 20, height= 100, slices=20, stacks= 30) => {
+Surfaces.prototype.EllipticalCylinder = (radiusX = 20, radiusY= 20, height= 100, slices=20, stacks= 30) => {
     const points = [];
     const edges = [];
     const polygons = [];
