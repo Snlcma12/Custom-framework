@@ -17,11 +17,22 @@ class Math3D {
     return ((point.y - y0) / (point.z - z0)) * (zs - z0) + y0;
   }
 
-  Pointer(point, T) {
-    const array = this.multPoint(T, [point.x, point.y, point.z, 1]);
-    point.x = array[0];
-    point.y = array[1];
-    point.z = array[2];
+  multMatrix(T1, T2) {
+    const result = [
+      [0,0,0,0],
+      [0,0,0,0],
+      [0,0,0,0],
+      [0,0,0,0]
+    ];
+    for (let i = 0; i < 4; i++) {
+      for (let j = 0; j < 4; j++) {
+        result[i][j] = 0;
+        for (let k = 0; k < 4; k++) {
+          result[i][j] += T1[i][k] * T2[k][j];
+        }
+      }
+    }
+    return result;
   }
 
   multPoint(T, m) {
@@ -76,7 +87,7 @@ class Math3D {
     return [
       [Math.cos(alpha), Math.sin(alpha), 0, 0],
       [-Math.sin(alpha), Math.cos(alpha), 0, 0],
-      [0, 0, Math.cos(alpha), 0],
+      [0, 0, 1, 0],
       [0, 0, 0, 1]
     ];
   }
@@ -88,7 +99,7 @@ class Math3D {
     point.z = result[2];
    }	
    
-   getTransform(args){
+   getTransform(...args){
     return args.reduce(
       (s,t) => this.multMatrix(s,t),
       [[1,0,0,0],
@@ -98,31 +109,7 @@ class Math3D {
     );	
   }
 
-  multMatrix(T1, T2) {
-    const result = [];
-    for (let i = 0; i < 4; i++) {
-      result[i] = [];
-      for (let j = 0; j < 4; j++) {
-        result[i][j] = 0;
-        for (let k = 0; k < 4; k++) {
-          result[i][j] += T1[i][k] * T2[k][j];
-        }
-      }
-    }
-    return result;
-  }
-
-  SolarSystem(){
-    const Earth = this.surfaces.sphere();
-    Earth.addAnimation('rotateOy',0.1);
-    const Moon = this.surfaces.cube();
-    Moon.addAnimation('rotateOx',0.2);
-    Moon.addAnimation('rotateOx',0.05);
-    return[Earth,Moon];
-  }
   
-  
-
 
   calcDistance(surface, endPoint, name) {
     surface.polygons.forEach((polygon) => {

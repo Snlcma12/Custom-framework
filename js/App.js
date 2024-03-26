@@ -38,7 +38,7 @@ class App extends Component {
       template: template.graphics3DTemplate,
     });
 
-    this.showPage("shooting");
+    this.showPage("graphics3D");
   }
 
   showPage(name) {

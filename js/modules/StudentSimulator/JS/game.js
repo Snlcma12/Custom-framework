@@ -22,7 +22,6 @@ function restart() {
 function goToRoom() {
   var room = Rooms[roomId];
 
-  console.log(room, roomId);
 
   document.getElementById('roomTitle').innerHTML = room.title;
   document.getElementById('roomDescription')

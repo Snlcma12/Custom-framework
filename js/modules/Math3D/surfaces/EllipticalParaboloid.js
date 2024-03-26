@@ -11,6 +11,14 @@ Surfaces.prototype.EllipticalParaboloid = (a = 1, b = 1, c = 1) => {
             points.push(new Point(x, y, z));
         }
     }
+
+    for (let u = -Math.PI; u < Math.PI; u += step) {
+        for (let v = -Math.PI; v < Math.PI; v += step) {
+            var first = u * (Math.PI + 1) + v;
+            var second = first + Math.PI + 1;
+            edges.push(new Edge(first, second));
+        }
+    }
    
 
 

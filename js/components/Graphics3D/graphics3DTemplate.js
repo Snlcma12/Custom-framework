@@ -7,6 +7,7 @@ Template.prototype.graphics3DTemplate = () => `
             <option value="sphere">Сфера</option>
             <option value="torus">Торус</option>
             <option value="MobiusStrip">Бутылка Клейна</option>
+            <option value="hyperbolicParaboloid">Гиперболический параболоид</option>
             <option value="EllipticalCylinder">эллиптический цилиндр</option>
             <option value="cone">Конус</option>
             <option value="EllipticalParaboloid">Эллиптический параболоид</option>
@@ -30,8 +31,8 @@ Template.prototype.graphics3DTemplate = () => `
         <label for="meshColor">Color</label>
     </div>
     <div class="gp3d">
-    <input id="animationControl" type="checkbox" checked />
-    <label for="animationControl">Анимация</label>
+    <input id="animationActive" type="checkbox" checked />
+    <label for="animationActive">Анимация</label>
     </div>
     <canvas id='graph3D'></canvas>
 </div>

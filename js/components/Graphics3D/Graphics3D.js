@@ -1,3 +1,14 @@
+window.requestAnimFrame = (function () {
+    return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function (callback) {
+            window.setTimeout(callback, 1000 / 60);
+        };
+})();
+
 class Graphics3D extends Component {
     constructor(props) {
         super(props);
@@ -26,16 +37,18 @@ class Graphics3D extends Component {
             },
         });
         this.math3D = new Math3D(this.WIN);
-        const surfaces = new Surfaces();
-        this.scene = [surfaces.cube()];
+        this.surfaces = new Surfaces();
+        //this.scene = [surfaces.cube()];
         this.LIGHT = new Light(-40, 15, 0, 1250);
-        //this.scene = this.SolarSystem();
-        
-    
+        this.scene = this.SolarSystem();
+
+
         setInterval(() => {
-        this.scene.forEach(surface=>surface.doAnimation(this.math3D));
-        this.render3D();
-        },50);
+            if (this.animationActive) {
+            this.scene.forEach(surface => surface.doAnimation(this.math3D));
+            }
+            this.render3D();
+        }, 50);
 
         this.color = "#ff2a00";
         this.polygonsOnly = true;
@@ -45,39 +58,57 @@ class Graphics3D extends Component {
         this.canMove = false;
         this.dx = 0;
         this.dy = 0;
-        
-        this.render3D();
-        this.animate();
+        let FPS = 0;
+        let countFPS = 0;
+        let timestamp = Date.now();
+
+        const renderLoop = () => {
+            countFPS++;
+            const currentTimestamp = Date.now();
+            if (currentTimestamp - timestamp >= 1000) {
+                FPS = countFPS;
+                countFPS = 0;
+                timestamp = currentTimestamp;
+            }
+
+            this.render3D(FPS);
+            requestAnimFrame(renderLoop);
+        }
+
+        renderLoop();
+
     }
 
     addEventListeners() {
         document.getElementById("SelectSurface")
             .addEventListener("change", (event) => {
                 this.scene = [(new Surfaces)[event.target.value]()];
-                this.render3D();
             });
         document.querySelectorAll('.surfaceCustom').forEach(input =>
             input.addEventListener("input", (event) => {
                 this[event.target.dataset.custom] = event.target.checked;
-                this.render3D();
             })
         );
-        document.getElementById("animationControl").addEventListener("change", (event) => {
+        document.getElementById("meshColor").addEventListener("input", (event) => {
+            this.color = event.target.value;
+            this.render3D();
+          });
+      
+        document.getElementById("animationActive").addEventListener("change", (event) => {
             this.animationActive = event.target.checked;
             if (this.animationActive) {
-              this.animate();
+                
             }
-          });
+        });
     }
 
-    
+
 
     wheel(event) {
         event.preventDefault();
         const delta = event.wheelDelta < 0 ? 0.9 : 1.1;
         const matrix = this.math3D.zoom(delta);
-	    this.scene.forEach(surface => surface.points.forEach(point => this.math3D.transform(matrix, point)));
-        this.render3D();
+        this.scene.forEach(surface => surface.points.forEach(point => this.math3D.transform(matrix, point)));
     }
 
     mouseUp() {
@@ -99,27 +130,26 @@ class Graphics3D extends Component {
             const tY = this.math3D.rotateOy(alphaY);
             this.scene.forEach(surface =>
                 surface.points.forEach((point) => {
-                    this.math3D.Pointer(point, tX);
-                    this.math3D.Pointer(point, tY);
+                    this.math3D.transform(tX, point);
+                    this.math3D.transform(tY, point);
                 })
             );
-            this.render3D();
         }
         this.dx = event.offsetX;
         this.dy = event.offsetY;
     }
 
-    animate() {
-        if (!this.animationActive) return;
-    
-        requestAnimationFrame(() => this.animate());
-    
-        this.scene.forEach(surface => surface.doAnimation(this.math3D));
-        this.render3D();
-      }
-    
+    SolarSystem() {
+        const Earth = this.surfaces.sphere();
+        Earth.addAnimation('rotateOy', 0.1);
+        const Moon = this.surfaces.cube();
+        Moon.addAnimation('rotateOx', 0.2);
+        Moon.addAnimation('rotateOx', 0.05);
+        return [Earth, Moon];
+    }
 
-    render3D() {
+    render3D(FPS) {
+        console.log(FPS);
         this.graph.clear();
         if (this.polygonsOnly) {
             const polygons = [];
