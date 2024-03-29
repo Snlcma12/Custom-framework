@@ -148,38 +148,39 @@ class Graphics3D extends Component {
         return [Earth, Moon];
     }
 
-    render3D(FPS) {
-        console.log(FPS);
+    render3D() {
         this.graph.clear();
         if (this.polygonsOnly) {
             const polygons = [];
             this.scene.forEach((surface, index) => {
-                this.math3D.calcDistance(surface, this.WIN.CAMERA, "distance");
-                this.math3D.calcDistance(surface, this.LIGHT, "lumen");
+                this.math3D.calcCenter(surface);
+                this.math3D.calcRadius(surface);
+                this.math3D.calcDistance(surface, this.WIN.CAMERA, 'distance');
+                this.math3D.calcDistance(surface, this.LIGHT, 'lumen');
                 surface.polygons.forEach(polygon => {
                     polygon.index = index;
                     polygons.push(polygon);
                 });
             });
             this.math3D.sortByArtistAlgorithm(polygons);
-            polygons.forEach((polygon) => {
-                const points = polygon.points.map(index => {
-                    return new Point(
-                        this.math3D.xs(this.scene[polygon.index].points[index]),
-                        this.math3D.ys(this.scene[polygon.index].points[index])
-                    );
-                });
-                const lumen = this.math3D.calcIllumination(
-                    polygon.lumen,
-                    this.LIGHT.lumen
-                );
-                let { r, g, b } = polygon.color;
+            polygons.forEach(polygon => {
+                const points = polygon.points.map(index => new Point(
+                    this.math3D.xs(this.scene[polygon.index].points[index]),
+                    this.math3D.ys(this.scene[polygon.index].points[index])
+                ));
+                let {r, g, b} = polygon.color;
+                const {isShadow, dark}  = this.math3D.calcShadow(polygon, this.scene, this.LIGHT);
+                const lumen = this.math3D.calcIllumination(polygon.lumen,
+                    this.LIGHT.lumen)*(isShadow?dark: 1);
+                
                 r = Math.round(r * lumen);
                 g = Math.round(g * lumen);
                 b = Math.round(b * lumen);
                 this.graph.drawPolygon(points, polygon.rgbToHex(r, g, b));
             });
         }
+
+
         if (this.pointOnly) {
             this.scene.forEach((surface) =>
                 surface.points.forEach((point) => {
