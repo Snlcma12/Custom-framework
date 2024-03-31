@@ -13,7 +13,7 @@ var Rooms = {
   start: {
       title: "Клоповник",
       description: "Комната из шараги",
-      img: "img/start.jpg",
+      img: "js/modules/RPG/img/start.jpg",
       actions: [
           { title: "Окно", id: "window", damage: -1, cost: 10 },
           { title: "коридор", id: "tall", damage: -1, cost: 10 }
@@ -22,13 +22,13 @@ var Rooms = {
   window: {
       title: "Окно",
       description: "Зачем?",
-      img: "img/window.jpg",
+      img: "js/modules/RPG/img/window.jpg",
       actions: []
   },
   kitchen: {
       title: "Кухня",
       description: "Всегда голодный",
-      img: "img/kitchen.jpg",
+      img: "js/modules/RPG/img/kitchen.jpg",
       actions: [
           { title: "Сьесть прокисший суп", id: "ponos", damage: -1 },
           { title: "Выйти обратно в коридор", id: "tall", damage: -1 }
@@ -38,7 +38,7 @@ var Rooms = {
   tall: {
       title: "Коридор",
       description: "Место соединяющие комнаты",
-      img: "img/tall.jpg",
+      img: "js/modules/RPG/img/tall.jpg",
       actions: [
           { title: "Пойти в туалет", id: "toulet", damage: -1 },
           { title: "Идти в комнату", id: "start", damage: -1 },
@@ -50,7 +50,7 @@ var Rooms = {
   kpp: {
       title: "Пропускной пункт",
       description: "Здесь сказать нечего",
-      img: "img/kpp.jpeg",
+      img: "js/modules/RPG/img/kpp.jpeg",
       actions: [
           { title: "Пойти в коридор", id: "tall", damage: -1 },
           { title: "Выйти на улицу", id: "street", damage: -1 },
@@ -60,7 +60,7 @@ var Rooms = {
   street: {
       title: "Улица",
       description: "Место через которое хочу в УДГУ",
-      img: "img/streeet.jpg",
+      img: "js/modules/RPG/img/streeet.jpg",
       actions: [
           { title: "Пойти в кб за пивом", id: "KB", damage: -1 },
           { title: "Пойти в УДГУ", id: "udgu", damage: -1 },
@@ -71,7 +71,7 @@ var Rooms = {
   udgu: {
       title: "Университет",
       description: "Красивый, замечательный УДГУ",
-      img: "img/1.jpg",
+      img: "js/modules/RPG/img/1.jpg",
       actions: [
           { title: "Тубзик", id: "TualetUdgu", damage: -1 },
           { title: "Кабинет Математики", id: "MathRoom", damage: -1 },
@@ -82,7 +82,7 @@ var Rooms = {
   TualetUdgu: {
       title: "Туалет Удгу",
       description: "Воняет",
-      img: "img/tual.jpeg",
+      img: "js/modules/RPG/img/tual.jpeg",
       actions: [
           { title: "Выйти из туалета", id: "udgu" }
       ]
@@ -90,7 +90,7 @@ var Rooms = {
   MathRoom: {
       title: "Кабинет Математики",
       description: "Больше сказать нечего",
-      img: "img/mat.jpg",
+      img: "js/modules/RPG/img/mat.jpg",
       actions: []
   },
   PE: {
@@ -104,7 +104,7 @@ var Rooms = {
   KB: {
       title: "Кб",
       description: "Зашел за коктельчиком",
-      img: "img/kb.jpg",
+      img: "js/modules/RPG/img/kb.jpg",
       actions: [
           { title: "Выйти из кб", id: "udgu", damage: 'random' }
       ],
@@ -114,7 +114,7 @@ var Rooms = {
   toulet: {
       title: "Толкан",
       description: "Как же здесь ужасно",
-      img: "img/toulet.jpg",
+      img: "js/modules/RPG/img/toulet.jpg",
       actions: [
           { title: "Выйти из туалета", id: "tall", damage: -1 },
           { title: "Поднять таракана", id: 'toulet', eats: 2 }
@@ -123,7 +123,7 @@ var Rooms = {
   ponos: {
       title: "Критичское давление на заднем клапоне",
       description: "он не выдержит...",
-      img: "img/ponosi.jpg",
+      img: "js/modules/RPG/img/ponosi.jpg",
       actions: []
   }
 }

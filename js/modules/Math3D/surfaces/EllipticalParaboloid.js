@@ -36,10 +36,12 @@ Surfaces.prototype.EllipticalParaboloid = (count = 15, a = 1, b = 1, c = 1) => {
         }
     
 
-        
+    
         
         
     }
+   
+
 
     return new Surface(points, edges, polygons);
 };
