@@ -52,8 +52,8 @@ class Graphics3D extends Component {
 
         this.color = "#ff2a00";
         this.polygonsOnly = true;
-        this.pointOnly = true;
-        this.edgesOnly = true;
+        this.pointOnly = false;
+        this.edgesOnly = false;
         this.animationActive = true;
         this.canMove = false;
         this.dx = 0;
@@ -179,6 +179,8 @@ class Graphics3D extends Component {
                 this.graph.drawPolygon(points, polygon.rgbToHex(r, g, b));
             });
         }
+
+        
 
 
         if (this.pointOnly) {

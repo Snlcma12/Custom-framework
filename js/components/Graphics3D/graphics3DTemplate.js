@@ -12,14 +12,15 @@ Template.prototype.graphics3DTemplate = () => `
             <option value="cone">Конус</option>
             <option value="EllipticalParaboloid">Эллиптический параболоид</option>
             <option value="Elipsoid">Элипсоид</option>
+            <option value="twoWayHyperboloid">гиперболоид</option>
         </select>
     </div>
     <div class="gp3d">
-        <input class='surfaceCustom' data-custom='pointOnly' id="pointOnly" type="checkbox" checked />
+        <input class='surfaceCustom' data-custom='pointOnly' id="pointOnly" type="checkbox"  />
         <label for="pointOnly">Точки</label>
     </div>
     <div class="gp3d">
-        <input class='surfaceCustom' data-custom='edgesOnly' id="edgesOnly" type="checkbox" checked/>
+        <input class='surfaceCustom' data-custom='edgesOnly' id="edgesOnly" type="checkbox" />
         <label for="edgesOnly">Ребра</label>
     </div>
     <div class="gp3d">

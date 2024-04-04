@@ -1,4 +1,4 @@
-Surfaces.prototype.EllipticalParaboloid = (count = 15, a = 1, b = 1, c = 1) => {
+Surfaces.prototype.EllipticalParaboloid = (count = 30, a = 1, b = 1, c = 1) => {
     const points = [];
     const edges = [];
     const polygons = [];
@@ -14,7 +14,6 @@ Surfaces.prototype.EllipticalParaboloid = (count = 15, a = 1, b = 1, c = 1) => {
     }
 
     for (let i = 0; i < points.length; i++) {
-        
         if (points[i + 1]) {
             if ((i + 1) % count === 0) {
                 if (i + 1 - count >= 0) {
@@ -24,23 +23,20 @@ Surfaces.prototype.EllipticalParaboloid = (count = 15, a = 1, b = 1, c = 1) => {
                 edges.push(new Edge(i, i + 1));
             }
         }
-        for (let i = 0; i < points.length; i++) {
-            if (points[i + 1 + count]) {
-                polygons.push(new Polygon([
-                    i,
-                    i + 1,
-                    i + 1 + count,
-                    i + count
-                ], '#ffff00'));
-            }
-        }
-    
-
-    
-        
-        
     }
-   
+    
+    for (let i = 0; i < points.length; i++) {
+        if (points[i + 1 + count]) {
+            polygons.push(new Polygon([
+                i,
+                i + 1,
+                i + 1 + count,
+                i + count
+            ]));
+        }
+    }
+
+
 
 
     return new Surface(points, edges, polygons);
